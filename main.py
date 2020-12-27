@@ -20,7 +20,7 @@ class NameDay:
         f.write(outputtext)
         f.close()
 
-    # print the name for today in the list
+    # print the name for today in the list. Runtime is once during the hour following the time set in "runTime"
     def job(self):
         date = datetime.datetime.now().strftime("%H")
         runTime = "00"
@@ -28,7 +28,7 @@ class NameDay:
             return
         self.output()
 
-n = NameDay
+n = NameDay()
 # automate the task of printing name so that it prints the name once a day
 while True:
     n.job()
