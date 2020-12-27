@@ -1,24 +1,36 @@
-#write a simple python script for doing a specific job, write a python script at specific times
+# write a simple python script for doing a specific job, write a python script at specific times
 
-import datetime, schedule, requests
+import datetime
+import json
+import requests
 import time
 
-def output():
-    r = requests.get("https://shapeshed.com/unix-cal/")
-    # json decode r.text
-#print the name for today in the list
+class NameDay:
+    def output(self):
+        response = requests.get("https://sholiday.faboul.se/dagar/v2.1/")
+        # json decode response.text into data dictionary
+        r = json.loads(response.text)
+        #getting the names from the json response, it should be doing an error checking
+        outputtext = ""
+        for dagar in r["dagar"]:
+            for namn in dagar["namnsdag"]:
+                outputtext = outputtext + namn +"\n"
+        #dump the output to a txt file
+        f = open("namnsdag.txt", "w")
+        f.write(outputtext)
+        f.close()
 
-def job():
-    date = datetime.datetime.now().strftime("%H")
-    runTime = "00"
-    if date != runTime:
-        return
-    output()
-#automate the task of printing name so that it prints the name once a day
+    # print the name for today in the list
+    def job(self):
+        date = datetime.datetime.now().strftime("%H")
+        runTime = "00"
+        if date != runTime:
+            return
+        self.output()
+
+n = NameDay
+# automate the task of printing name so that it prints the name once a day
 while True:
-    job()
+    n.job()
     time.sleep(3600)
-
-#run it in the background in Linux
-
 
